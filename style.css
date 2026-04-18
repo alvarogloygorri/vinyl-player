@@ -12,9 +12,9 @@
   --gray-2: #6e6e73;
   --gray-3: #aeaeb2;
   --gray-4: #d1d1d6;
-  --vinyl-black: #1a1a1a;
-  --vinyl-groove: #2a2a2a;
-  --vinyl-groove-2: #232323;
+  --vinyl-black: #0a1628;
+  --vinyl-groove: #142240;
+  --vinyl-groove-2: #0e1b35;
   --label-bg: #1d1d1f;
   --accent: #1d1d1f;
   --arm-color: #8e8e93;
@@ -98,11 +98,11 @@ body {
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 50%,
-    #222 0%,
-    #1a1a1a 20%,
-    #111 50%,
-    #1c1c1c 70%,
-    #0d0d0d 100%
+    #0d1b2e 0%,
+    #0a1628 20%,
+    #060e1a 50%,
+    #0c1a2e 70%,
+    #04090f 100%
   );
   box-shadow:
     0 4px 24px rgba(0,0,0,0.35),
