@@ -1,0 +1,667 @@
+/* ============================================
+   VARIABLES
+   ============================================ */
+:root {
+  --white: #ffffff;
+  --off-white: #f5f5f7;
+  --surface: #fafafa;
+  --border: #e8e8ed;
+  --border-strong: #d1d1d6;
+  --black: #1d1d1f;
+  --gray-1: #3a3a3c;
+  --gray-2: #6e6e73;
+  --gray-3: #aeaeb2;
+  --gray-4: #d1d1d6;
+  --vinyl-black: #1a1a1a;
+  --vinyl-groove: #2a2a2a;
+  --vinyl-groove-2: #232323;
+  --label-bg: #1d1d1f;
+  --accent: #1d1d1f;
+  --arm-color: #8e8e93;
+  --stylus-green: #34c759;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+  --radius: 20px;
+  --radius-sm: 10px;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+#app {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  align-items: start;
+}
+
+#turntable-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================
+   PLATTER BASE
+   ============================================ */
+#platter-base {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  padding: 7%;
+}
+
+/* ============================================
+   PLATTER
+   ============================================ */
+#platter {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #f0f0f0;
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.08),
+    0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ============================================
+   VINYL DISC
+   ============================================ */
+#vinyl {
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #222 0%,
+    #1a1a1a 20%,
+    #111 50%,
+    #1c1c1c 70%,
+    #0d0d0d 100%
+  );
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.35),
+    0 1px 4px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: spin-vinyl 1.8s linear infinite;
+  animation-play-state: paused;
+}
+
+.vinyl-groove-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid var(--vinyl-groove);
+  pointer-events: none;
+}
+
+/* ============================================
+   RECORD LABEL
+   ============================================ */
+#record-label {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+#label-logo {
+  font-size: clamp(8px, 1.6vw, 11px);
+  color: var(--gray-3);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+#label-title {
+  font-size: clamp(5px, 1vw, 7px);
+  color: var(--black);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 6px;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+#label-artist {
+  font-size: clamp(4px, 0.8vw, 6px);
+  color: var(--gray-2);
+  text-align: center;
+  padding: 0 6px;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+/* ============================================
+   SPINDLE
+   ============================================ */
+#spindle {
+  position: absolute;
+  width: 1.5%;
+  height: 1.5%;
+  min-width: 5px;
+  min-height: 5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--border-strong);
+  z-index: 10;
+}
+
+/* ============================================
+   TONEARM
+   ============================================ */
+#tonearm-assembly {
+  position: absolute;
+  top: 4%;
+  right: 3%;
+  width: 42%;
+  height: 70%;
+  pointer-events: none;
+}
+
+#tonearm-pivot {
+  position: absolute;
+  top: 6%;
+  right: 4%;
+  width: 100%;
+  height: 100%;
+  transform-origin: 100% 8%;
+  transform: rotate(28deg);
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#tonearm-shaft {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  width: 3px;
+  height: 72%;
+  background: var(--gray-2);
+  border-radius: 2px 2px 1px 1px;
+  transform-origin: top center;
+  transform: rotate(-8deg);
+}
+
+#headshell {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(8deg);
+  width: 10px;
+  height: 14px;
+  background: var(--gray-2);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 70%, 60% 100%, 40% 100%, 0% 70%);
+}
+
+#stylus {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 6px;
+  background: var(--stylus-green);
+  border-radius: 0 0 1px 1px;
+  box-shadow: 0 0 4px rgba(52,199,89,0.5);
+}
+
+#pivot-dot {
+  position: absolute;
+  top: 4%;
+  right: 2%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gray-1);
+  z-index: 5;
+  transform: translate(10%, 10%);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   CONTROLS BAR
+   ============================================ */
+#controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+#transport {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray-2);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 6px 8px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.ctrl-btn:hover {
+  color: var(--black);
+  background: var(--off-white);
+}
+
+.ctrl-btn:active {
+  background: var(--border);
+}
+
+.ctrl-btn.primary {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 13px;
+  padding: 0;
+  background: var(--black);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+
+.ctrl-btn.primary:hover {
+  background: var(--gray-1);
+  transform: scale(1.04);
+}
+
+.ctrl-btn.primary:active {
+  transform: scale(0.97);
+}
+
+/* Show/hide play and pause icons */
+.icon-pause { display: none; }
+body.state-playing .icon-play  { display: none; }
+body.state-playing .icon-pause { display: inline; }
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+#progress-container {
+  flex: 1;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+#progress-bar {
+  position: relative;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--black);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+#progress-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--black);
+  transition: left 0.1s linear, opacity 0.2s;
+  opacity: 0;
+}
+
+#progress-container:hover #progress-thumb { opacity: 1; }
+
+#time-display {
+  font-size: 10px;
+  color: var(--gray-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 72px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================
+   VOLUME
+   ============================================ */
+#volume-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+#volume-icon {
+  font-size: 13px;
+  color: var(--gray-3);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+#volume-icon:hover { color: var(--black); }
+
+#volume-slider {
+  -webkit-appearance: none;
+  width: 64px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--black);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+#volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--black);
+  cursor: pointer;
+  border: none;
+}
+
+/* ============================================
+   UPLOAD BUTTON
+   ============================================ */
+#btn-upload {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--gray-3);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+#btn-upload:hover {
+  border-color: var(--border-strong);
+  color: var(--black);
+  background: var(--off-white);
+}
+
+/* ============================================
+   TRACKLIST SECTION
+   ============================================ */
+#tracklist-section {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+#now-playing-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+#np-disc {
+  font-size: 22px;
+  color: var(--gray-4);
+  flex-shrink: 0;
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+body.state-playing #np-disc {
+  color: var(--black);
+  animation: disc-spin-icon 2s linear infinite;
+}
+
+#np-info { flex: 1; overflow: hidden; }
+
+#np-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+#np-artist {
+  font-size: 11px;
+  color: var(--gray-2);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+#track-list {
+  list-style: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  max-height: 500px;
+}
+
+#track-list::-webkit-scrollbar { width: 3px; }
+#track-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+.track-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+
+.track-item:last-child { border-bottom: none; }
+
+.track-item:hover { background: var(--off-white); }
+
+.track-item.active { background: var(--off-white); }
+
+.track-num {
+  font-size: 10px;
+  color: var(--gray-4);
+  min-width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.track-item.active .track-num {
+  color: var(--black);
+  font-weight: 600;
+}
+
+.track-info { flex: 1; overflow: hidden; }
+
+.track-name {
+  font-size: 12px;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.track-item.active .track-name { font-weight: 600; }
+
+.track-artist {
+  font-size: 10px;
+  color: var(--gray-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  margin-top: 1px;
+}
+
+.track-duration {
+  font-size: 10px;
+  color: var(--gray-4);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes spin-vinyl {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes needle-bounce {
+  0%   { transform: translateX(-50%) translateY(0); }
+  30%  { transform: translateX(-50%) translateY(3px); }
+  65%  { transform: translateX(-50%) translateY(-1px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes disc-spin-icon {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================
+   STATE-DRIVEN RULES
+   ============================================ */
+body.state-playing #vinyl {
+  animation-play-state: running;
+}
+
+body.state-paused #vinyl {
+  animation-play-state: paused;
+}
+
+body.state-stopped #vinyl {
+  animation-play-state: paused;
+}
+
+body.state-playing #tonearm-pivot {
+  transform: rotate(3deg);
+}
+
+body.state-paused #tonearm-pivot {
+  transform: rotate(3deg);
+  transition: transform 0.4s ease;
+}
+
+body.state-stopped #tonearm-pivot {
+  transform: rotate(28deg);
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.needle-settling #stylus {
+  animation: needle-bounce 0.4s ease-out both;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 720px) {
+  #app {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+
+  #tracklist-section { max-height: 280px; }
+
+  #controls-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #progress-container { order: 10; width: 100%; }
+  #time-display { order: 11; }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinyl Player</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="state-stopped">
+
+  <div id="app">
+
+    <!-- ===== TURNTABLE SECTION ===== -->
+    <section id="turntable-section">
+      <div id="platter-base">
+
+        <!-- Spinning platter + vinyl -->
+        <div id="platter">
+          <div id="vinyl">
+            <div class="vinyl-groove-ring" style="width:88%;height:88%"></div>
+            <div class="vinyl-groove-ring" style="width:75%;height:75%"></div>
+            <div class="vinyl-groove-ring" style="width:60%;height:60%"></div>
+            <div id="record-label">
+              <div id="label-logo">♪</div>
+              <div id="label-title">—</div>
+              <div id="label-artist">—</div>
+            </div>
+          </div>
+          <div id="spindle"></div>
+        </div>
+
+        <!-- Tonearm -->
+        <div id="tonearm-assembly">
+          <div id="tonearm-pivot">
+            <div id="tonearm-shaft">
+              <div id="headshell">
+                <div id="stylus"></div>
+              </div>
+            </div>
+          </div>
+          <div id="pivot-dot"></div>
+        </div>
+
+      </div><!-- /platter-base -->
+
+      <!-- Controls -->
+      <div id="controls-bar">
+        <div id="transport">
+          <button id="btn-prev" class="ctrl-btn" title="Anterior">&#9664;&#9664;</button>
+          <button id="btn-play-pause" class="ctrl-btn primary" title="Play / Pausa">
+            <span class="icon-play">&#9654;</span>
+            <span class="icon-pause">&#10074;&#10074;</span>
+          </button>
+          <button id="btn-next" class="ctrl-btn" title="Siguiente">&#9654;&#9654;</button>
+        </div>
+
+        <div id="progress-container">
+          <div id="progress-bar">
+            <div id="progress-fill"></div>
+            <div id="progress-thumb"></div>
+          </div>
+        </div>
+
+        <span id="time-display">0:00 / 0:00</span>
+
+        <div id="volume-container">
+          <span id="volume-icon">&#128266;</span>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8">
+        </div>
+
+        <label id="btn-upload" title="Subir archivo">
+          &#43;
+          <input type="file" id="file-input" accept="audio/*" hidden>
+        </label>
+      </div><!-- /controls-bar -->
+
+    </section>
+
+    <!-- ===== TRACKLIST SECTION ===== -->
+    <section id="tracklist-section">
+      <div id="now-playing-banner">
+        <div id="np-disc">&#9900;</div>
+        <div id="np-info">
+          <div id="np-title">Selecciona una pista</div>
+          <div id="np-artist">—</div>
+        </div>
+      </div>
+      <ul id="track-list"></ul>
+    </section>
+
+  </div><!-- /app -->
+
+  <audio id="audio-engine" preload="metadata"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
